@@ -1,0 +1,413 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenomiXplore - Refund Policy</title>
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="GenomiXplore - Refund Policy">
+    <meta name="description" content="Understand GenomiXplore's Refund Policy for paid services and subscriptions.">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://genomixplore.com/refund.html">
+    <meta property="og:title" content="GenomiXplore - Refund Policy">
+    <meta property="og:description" content="Review the Refund Policy for GenomiXplore's paid services.">
+    <meta property="og:image" content="https://genomixplore.com/banner-image.jpg">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://genomixplore.com/refund.html">
+    <meta property="twitter:title" content="GenomiXplore - Refund Policy">
+    <meta property="twitter:description" content="Learn about refund eligibility and process for GenomiXplore services.">
+    <meta property="twitter:image" content="https://genomixplore.com/banner-image.jpg">
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://genomixplore.com/refund.html">
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f97316, #facc15);
+            color: #1f2937;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: linear-gradient(90deg, #ea580c, #f59e0b);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #fff !important;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+        .navbar-brand svg {
+            height: 40px;
+            margin-right: 10px;
+            transition: transform 0.3s;
+        }
+        .navbar-brand .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .navbar-brand:hover svg {
+            transform: scale(1.1);
+        }
+        .section-bg {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+        }
+        .welcome-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #dc2626;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .animate-welcome {
+            animation: bounceIn 1.5s ease-out;
+        }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .interactive-btn {
+            background: linear-gradient(90deg, #f97316, #facc15);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            font-weight: bold;
+            transition: transform 0.2s, background 0.3s;
+        }
+        .interactive-btn:hover {
+            transform: scale(1.1);
+            background: linear-gradient(90deg, #dc2626, #ef4444);
+        }
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 1000;
+        }
+        .whatsapp-btn:hover {
+            background: #20b958;
+            transform: scale(1.1);
+        }
+        .whatsapp-btn i {
+            font-size: 30px;
+        }
+        .whatsapp-options {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            border: 1px solid #dee2e6;
+        }
+        .whatsapp-options a {
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.3s;
+        }
+        .whatsapp-options a:hover {
+            background: #f0f0f0;
+        }
+        .whatsapp-tooltip {
+            position: absolute;
+            bottom: 80px;
+            right: 70px;
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            display: none;
+            z-index: 1000;
+        }
+        .whatsapp-btn:hover .whatsapp-tooltip {
+            display: block;
+        }
+        .dark .bg-gray-50 { background-color: #2d3748; }
+        .dark .bg-white { background-color: #1a202c; }
+        .dark .text-gray-600 { color: #a0aec0; }
+        .dark .text-gray-900 { color: #e5e7eb; }
+        .dark .welcome-text { color: #facc15; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg py-4 fixed w-full top-0 z-10 text-white">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <a class="navbar-brand" href="/index.html">
+                <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gradient-light" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ea580c;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#facc15;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path class="gradient-fill" fill="url(#gradient-light)" d="M10 30 V10 H15 V5 H25 V10 H30 V30 H25 V25 H15 V30 Z M15 15 H25 V20 H15 Z" />
+                    <path fill="#fff" d="M17 17 H23 V18 H17 Z M17 19 H23 V20 H17 Z" />
+                </svg>
+                <span class="logo-text">GenomiXplore</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/index.html#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/research.html">Research</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/index.html#smart-controls">Smart Controls</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/index.html#resources">Resources</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="careerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Career Support
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="careerDropdown">
+                            <li><a class="dropdown-item" href="/internship.html">Internships</a></li>
+                            <li><a class="dropdown-item" href="/careers.html">Careers</a></li>
+                            <li><a class="dropdown-item" href="/research-writing.html">Research Writing</a></li>
+                            <li><a class="dropdown-item" href="/hiring.html">Hiring</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/notice.html">Notice Board</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/index.html#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/index.html#contact">Contact</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Account
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="/login.html">Login</a></li>
+                            <li><a class="dropdown-item" href="/register.html">Register</a></li>
+                            <li><a class="dropdown-item" href="/student-dashboard.html">Student Dashboard</a></li>
+                            <li><a class="dropdown-item" href="/faculty-dashboard.html">Faculty Dashboard</a></li>
+                            <li><a class="dropdown-item" href="/admin.html">Admin</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="flex space-x-4">
+                    <button id="themeToggle" class="interactive-btn">Toggle Dark Mode</button>
+                    <button onclick="scrollToSection('refund')" class="interactive-btn">Refund</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Refund Policy Section -->
+    <section id="refund" class="py-24 px-4">
+        <div class="container mx-auto">
+            <h1 class="welcome-text animate-welcome text-center mb-8">Refund Policy</h1>
+            <p class="text-center mb-8 text-gray-200">Last updated: May 5, 2025</p>
+
+            <div class="section-bg p-6">
+                <h2 class="text-2xl font-bold text-orange-800 dark:text-orange-300 mb-4">1. Overview</h2>
+                <p class="text-gray-700 dark:text-gray-400 mb-4">
+                    GenomiXplore offers refunds for paid services under specific conditions. This policy applies to subscriptions, research writing support, or any other paid features on our platform.
+                </p>
+
+                <h2 class="text-2xl font-bold text-orange-800 dark:text-orange-300 mb-4">2. Eligibility for Refunds</h2>
+                <p class="text-gray-700 dark:text-gray-400 mb-4">
+                    You may be eligible for a refund if:
+                </p>
+                <ul class="list-disc pl-5 text-gray-700 dark:text-gray-400 mb-4">
+                    <li>You request a refund within 7 days of purchase.</li>
+                    <li>The service has not been used or accessed (e.g., no research submissions or downloads).</li>
+                    <li>The service failed to meet the described functionality due to issues on our end.</li>
+                </ul>
+                <p class="text-gray-700 dark:text-gray-400 mb-4">
+                    Refunds are not available for:
+                </p>
+                <ul class="list-disc pl-5 text-gray-700 dark:text-gray-400 mb-4">
+                    <li>Services used beyond the 7-day refund period.</li>
+                    <li>Change of mind after accessing the service.</li>
+                    <li>Issues caused by user error or third-party services.</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold text-orange-800 dark:text-orange-300 mb-4">3. Refund Process</h2>
+                <p class="text-gray-700 dark:text-gray-400 mb-4">
+                    To request a refund:
+                </p>
+                <ul class="list-decimal pl-5 text-gray-700 dark:text-gray-400 mb-4">
+                    <li>Contact us at info@genomixplore.com with your purchase details, including order ID and date of purchase.</li>
+                    <li>Explain the reason for your refund request.</li>
+                    <li>We will review your request and respond within 5 business days.</li>
+                </ul>
+                <p class="text-gray-700 dark:text-gray-400 mb-4">
+                    If approved, the refund will be processed to your original payment method within 10 business days.
+                </p>
+
+                <h2 class="text-2xl font-bold text-orange-800 dark:text-orange-300 mb-4">4. Subscription Cancellations</h2>
+                <p class="text-gray-700 dark:text-gray-400 mb-4">
+                    If you cancel a subscription, you will not be charged for future billing cycles. However, no prorated refunds will be provided for the current billing period unless the cancellation meets the refund eligibility criteria above.
+                </p>
+
+                <h2 class="text-2xl font-bold text-orange-800 dark:text-orange-300 mb-4">5. Non-Refundable Services</h2>
+                <p class="text-gray-700 dark:text-gray-400 mb-4">
+                    Certain services, such as one-time research consultations or completed research writing support, are non-refundable once the service has been delivered.
+                </p>
+
+                <h2 class="text-2xl font-bold text-orange-800 dark:text-orange-300 mb-4">6. Changes to This Policy</h2>
+                <p class="text-gray-700 dark:text-gray-400 mb-4">
+                    We may update this Refund Policy from time to time. Changes will be posted on this page with an updated "Last updated" date. Continued use of the platform after changes constitutes your acceptance of the new policy.
+                </p>
+
+                <h2 class="text-2xl font-bold goto-orange-800 dark:text-orange-300 mb-4">7. Contact Us</h2>
+                <p class="text-gray-700 dark:text-gray-400">
+                    If you have any questions about this Refund Policy, please contact us at info@genomixplore.com.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Chatbot -->
+    <div class="whatsapp-btn" id="whatsappBtn">
+        <i class="fab fa-whatsapp"></i>
+        <div class="whatsapp-tooltip">Need Help?</div>
+    </div>
+    <div class="whatsapp-options" id="whatsappOptions">
+        <a href="https://wa.me/+916201259584?text=Hello%20GenomiXplore%20Team,%20I%20have%20a%20query!" target="_blank">
+            <i class="fas fa-comment"></i> Message Us
+        </a>
+        <a href="tel:+916201259584">
+            <i class="fas fa-phone"></i> Call Us
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-6 text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>About GenomiXplore</h5>
+                    <p>Leading platform for cutting-edge research in cancer, neuroscience, and quantum science.</p>
+                    <div class="social-icons">
+                        <a href="#" class="me-3"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/index.html#home">Home</a></li>
+                        <li><a href="/research.html">Research</a></li>
+                        <li><a href="/index.html#smart-controls">Smart Controls</a></li>
+                        <li><a href="/index.html#resources">Resources</a></li>
+                        <li><a href="/index.html#about">About Us</a></li>
+                        <li><a href="/index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <p>123 Research Park, Bangalore, India - 560001<br>
+                    +91 <br>
+                    info@genomixplore.com<br>
+                    Mon - Sat: 9:00 AM - 7:00 PM</p>
+                </div>
+            </div>
+            <hr>
+            <p class="text-gray-300">© 2025 GenomiXplore. All rights reserved. | <a href="/terms.html" class="text-orange-400">Terms</a> | <a href="/privacy.html" class="text-orange-400">Privacy</a> | <a href="/refund.html" class="text-orange-400">Refund</a> | <a href="/sitemap.html" class="text-orange-400">Sitemap</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark');
+        }
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Scroll to Section
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // WhatsApp Chatbot Toggle
+        const whatsappBtn = document.getElementById('whatsappBtn');
+        const whatsappOptions = document.getElementById('whatsappOptions');
+        whatsappBtn.addEventListener('click', () => {
+            whatsappOptions.style.display = whatsappOptions.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Close WhatsApp options when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!whatsappBtn.contains(e.target) && !whatsappOptions.contains(e.target)) {
+                whatsappOptions.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
